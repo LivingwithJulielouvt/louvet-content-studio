@@ -1,0 +1,129 @@
+CREATE TABLE `beta_feedback` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`client_id` text,
+	`category` text NOT NULL,
+	`message` text NOT NULL,
+	`page` text NOT NULL,
+	`request_key` text NOT NULL,
+	`created` text NOT NULL
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `beta_feedback_request_unique` ON `beta_feedback` (`user_id`,`request_key`);--> statement-breakpoint
+CREATE TABLE `beta_invites` (
+	`client_id` text PRIMARY KEY NOT NULL,
+	`token_hash` text NOT NULL,
+	`claimed_by` text,
+	`claimed_at` text,
+	`expires_at` text NOT NULL
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `beta_invite_token_unique` ON `beta_invites` (`token_hash`);--> statement-breakpoint
+CREATE UNIQUE INDEX `beta_invite_claim_unique` ON `beta_invites` (`claimed_by`);--> statement-breakpoint
+CREATE TABLE `beta_usage` (
+	`client_id` text PRIMARY KEY NOT NULL,
+	`image_attempts` integer DEFAULT 0 NOT NULL
+);
+
+--> statement-breakpoint
+-- BETA_FIXTURES : fictional workspaces only; no live client is read or copied.
+--> statement-breakpoint
+INSERT INTO clients VALUES('beta-2026-1','Maison Aube · bêta fictive','7f5ad5fb45349e64da26cc079ab321e010222a83039a81082b91916f1c4c33a6','{"workspaceType": "brand", "brand": "Maison Aube · fictif", "tone": "Simple, chaleureux et concret", "language": "fr", "colors": "#795548, #fff8ef", "studioVibe": "warm", "rules": "Données fictives pour la bêta. Préserver les références envoyées. Ne pas inventer de prix, de composition ou de résultats.", "validation": "direct", "imageCost": 1, "captionCost": 0, "variantCost": 1, "correctionCost": 1, "allowedEmails": [], "country": "FR", "sector": "retail", "calendarHidden": [], "pointsPerPost": 10}',20,0,1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO beta_invites VALUES('beta-2026-1','7f5ad5fb45349e64da26cc079ab321e010222a83039a81082b91916f1c4c33a6',NULL,NULL,'2026-12-15T23:59:59.000Z');
+--> statement-breakpoint
+INSERT INTO beta_usage VALUES('beta-2026-1',0);
+--> statement-breakpoint
+INSERT INTO products VALUES('beta-2026-1-product','beta-2026-1','Bougie en pot','Une bougie de démonstration dans un pot sobre.','Respecter la forme, la matière et les couleurs de la photo envoyée.','Démonstration uniquement.','Maison Aube','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO recipes VALUES('beta-2026-1-recipe','beta-2026-1','Une photo simple et lumineuse','{"count": 1, "size": "1024x1280", "language": "fr", "tone": "Simple et chaleureux", "scenes": ["Mettre en valeur la référence fournie sur une table près d’une fenêtre, lumière naturelle douce."], "instructions": "Préserver la référence et ses détails. Aucun texte ajouté, logo inventé ou transformation du corps."}',1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO client_intakes VALUES('beta-2026-1','{"story": "Maison Aube est une marque fictive : Bougies et décoration.", "offer": "Bougie en pot de démonstration.", "audience": "Des personnes qui apprécient les créations simples.", "difference": "Un univers soigné, facile à comprendre.", "objectives": "Essayer la création de contenu dans la bêta.", "personality": "Simple, chaleureuse, créative.", "inspirations": "Lumière naturelle et cadrages sobres.", "boundaries": "Ne pas inventer de promesses ni de certifications.", "channels": "Instagram et TikTok : exemples fictifs uniquement.", "priorities": "Tester les photos, les idées vidéo et le calendrier."}','reviewed',1,'beta-fixture','fr','2026-10-15T23:56:00.000Z','beta-fixture','2026-10-15T23:56:00.000Z','Exemple fictif prérempli pour la bêta.','2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-1-post-0','beta-2026-1','2026-10-14','Instagram','Présenter notre univers fictif','Exemple de légende pour Maison Aube. À adapter pendant le test.',NULL,1,10,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO reward_events VALUES('beta-2026-1-reward','beta-2026-1','beta-2026-1-post-0',10,'Exemple fictif : première publication','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-1-post-1','beta-2026-1','2026-10-19','Instagram','Montrer un détail de notre référence','Exemple de légende pour Maison Aube. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-1-post-2','beta-2026-1','2026-10-22','Instagram','Partager une idée simple','Exemple de légende pour Maison Aube. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO clients VALUES('beta-2026-2','Atelier Sol · bêta fictive','15496f7810eb9f0b5eb3073a304250cfb2bc601bf721143456510257b1943725','{"workspaceType": "brand", "brand": "Atelier Sol · fictif", "tone": "Simple, chaleureux et concret", "language": "fr", "colors": "#325b73, #f5f3eb", "studioVibe": "clean", "rules": "Données fictives pour la bêta. Préserver les références envoyées. Ne pas inventer de prix, de composition ou de résultats.", "validation": "direct", "imageCost": 1, "captionCost": 0, "variantCost": 1, "correctionCost": 1, "allowedEmails": [], "country": "FR", "sector": "retail", "calendarHidden": [], "pointsPerPost": 10}',20,0,1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO beta_invites VALUES('beta-2026-2','15496f7810eb9f0b5eb3073a304250cfb2bc601bf721143456510257b1943725',NULL,NULL,'2026-12-15T23:59:59.000Z');
+--> statement-breakpoint
+INSERT INTO beta_usage VALUES('beta-2026-2',0);
+--> statement-breakpoint
+INSERT INTO products VALUES('beta-2026-2-product','beta-2026-2','Tasse en céramique','Une tasse de démonstration, sans logo.','Respecter la forme, la matière et les couleurs de la photo envoyée.','Démonstration uniquement.','Atelier Sol','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO recipes VALUES('beta-2026-2-recipe','beta-2026-2','Une photo simple et lumineuse','{"count": 1, "size": "1024x1280", "language": "fr", "tone": "Simple et chaleureux", "scenes": ["Mettre en valeur la référence fournie sur une table près d’une fenêtre, lumière naturelle douce."], "instructions": "Préserver la référence et ses détails. Aucun texte ajouté, logo inventé ou transformation du corps."}',1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO client_intakes VALUES('beta-2026-2','{"story": "Atelier Sol est une marque fictive : Céramique artisanale.", "offer": "Tasse en céramique de démonstration.", "audience": "Des personnes qui apprécient les créations simples.", "difference": "Un univers soigné, facile à comprendre.", "objectives": "Essayer la création de contenu dans la bêta.", "personality": "Simple, chaleureuse, créative.", "inspirations": "Lumière naturelle et cadrages sobres.", "boundaries": "Ne pas inventer de promesses ni de certifications.", "channels": "Instagram et TikTok : exemples fictifs uniquement.", "priorities": "Tester les photos, les idées vidéo et le calendrier."}','reviewed',1,'beta-fixture','fr','2026-10-15T23:56:00.000Z','beta-fixture','2026-10-15T23:56:00.000Z','Exemple fictif prérempli pour la bêta.','2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-2-post-0','beta-2026-2','2026-10-14','Instagram','Présenter notre univers fictif','Exemple de légende pour Atelier Sol. À adapter pendant le test.',NULL,1,10,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO reward_events VALUES('beta-2026-2-reward','beta-2026-2','beta-2026-2-post-0',10,'Exemple fictif : première publication','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-2-post-1','beta-2026-2','2026-10-19','Instagram','Montrer un détail de notre référence','Exemple de légende pour Atelier Sol. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-2-post-2','beta-2026-2','2026-10-22','Instagram','Partager une idée simple','Exemple de légende pour Atelier Sol. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO clients VALUES('beta-2026-3','Jardin Luna · bêta fictive','672d897d8512497582be9c1f2efad9b9bd0d6e907ccefbb3f20c3d57df1021b6','{"workspaceType": "brand", "brand": "Jardin Luna · fictif", "tone": "Simple, chaleureux et concret", "language": "fr", "colors": "#355b3a, #fff8ef", "studioVibe": "warm", "rules": "Données fictives pour la bêta. Préserver les références envoyées. Ne pas inventer de prix, de composition ou de résultats.", "validation": "direct", "imageCost": 1, "captionCost": 0, "variantCost": 1, "correctionCost": 1, "allowedEmails": [], "country": "FR", "sector": "retail", "calendarHidden": [], "pointsPerPost": 10}',20,0,1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO beta_invites VALUES('beta-2026-3','672d897d8512497582be9c1f2efad9b9bd0d6e907ccefbb3f20c3d57df1021b6',NULL,NULL,'2026-12-15T23:59:59.000Z');
+--> statement-breakpoint
+INSERT INTO beta_usage VALUES('beta-2026-3',0);
+--> statement-breakpoint
+INSERT INTO products VALUES('beta-2026-3-product','beta-2026-3','Plante en pot','Une petite plante en pot servant de référence.','Respecter la forme, la matière et les couleurs de la photo envoyée.','Démonstration uniquement.','Jardin Luna','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO recipes VALUES('beta-2026-3-recipe','beta-2026-3','Une photo simple et lumineuse','{"count": 1, "size": "1024x1280", "language": "fr", "tone": "Simple et chaleureux", "scenes": ["Mettre en valeur la référence fournie sur une table près d’une fenêtre, lumière naturelle douce."], "instructions": "Préserver la référence et ses détails. Aucun texte ajouté, logo inventé ou transformation du corps."}',1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO client_intakes VALUES('beta-2026-3','{"story": "Jardin Luna est une marque fictive : Plantes et petits jardins.", "offer": "Plante en pot de démonstration.", "audience": "Des personnes qui apprécient les créations simples.", "difference": "Un univers soigné, facile à comprendre.", "objectives": "Essayer la création de contenu dans la bêta.", "personality": "Simple, chaleureuse, créative.", "inspirations": "Lumière naturelle et cadrages sobres.", "boundaries": "Ne pas inventer de promesses ni de certifications.", "channels": "Instagram et TikTok : exemples fictifs uniquement.", "priorities": "Tester les photos, les idées vidéo et le calendrier."}','reviewed',1,'beta-fixture','fr','2026-10-15T23:56:00.000Z','beta-fixture','2026-10-15T23:56:00.000Z','Exemple fictif prérempli pour la bêta.','2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-3-post-0','beta-2026-3','2026-10-14','Instagram','Présenter notre univers fictif','Exemple de légende pour Jardin Luna. À adapter pendant le test.',NULL,1,10,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO reward_events VALUES('beta-2026-3-reward','beta-2026-3','beta-2026-3-post-0',10,'Exemple fictif : première publication','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-3-post-1','beta-2026-3','2026-10-19','Instagram','Montrer un détail de notre référence','Exemple de légende pour Jardin Luna. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-3-post-2','beta-2026-3','2026-10-22','Instagram','Partager une idée simple','Exemple de légende pour Jardin Luna. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO clients VALUES('beta-2026-4','Café Nuage · bêta fictive','84140f51e2b38c0620bc66e1095ecc59dd5564037f90fd2abb132158ca38db82','{"workspaceType": "brand", "brand": "Café Nuage · fictif", "tone": "Simple, chaleureux et concret", "language": "fr", "colors": "#835234, #fff2e1", "studioVibe": "warm", "rules": "Données fictives pour la bêta. Préserver les références envoyées. Ne pas inventer de prix, de composition ou de résultats.", "validation": "direct", "imageCost": 1, "captionCost": 0, "variantCost": 1, "correctionCost": 1, "allowedEmails": [], "country": "FR", "sector": "food", "calendarHidden": [], "pointsPerPost": 10}',20,0,1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO beta_invites VALUES('beta-2026-4','84140f51e2b38c0620bc66e1095ecc59dd5564037f90fd2abb132158ca38db82',NULL,NULL,'2026-12-15T23:59:59.000Z');
+--> statement-breakpoint
+INSERT INTO beta_usage VALUES('beta-2026-4',0);
+--> statement-breakpoint
+INSERT INTO products VALUES('beta-2026-4-product','beta-2026-4','Tasse de café','Une tasse de café de démonstration.','Respecter la forme, la matière et les couleurs de la photo envoyée.','Démonstration uniquement.','Café Nuage','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO recipes VALUES('beta-2026-4-recipe','beta-2026-4','Une photo simple et lumineuse','{"count": 1, "size": "1024x1280", "language": "fr", "tone": "Simple et chaleureux", "scenes": ["Mettre en valeur la référence fournie sur une table près d’une fenêtre, lumière naturelle douce."], "instructions": "Préserver la référence et ses détails. Aucun texte ajouté, logo inventé ou transformation du corps."}',1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO client_intakes VALUES('beta-2026-4','{"story": "Café Nuage est une marque fictive : Café de quartier.", "offer": "Tasse de café de démonstration.", "audience": "Des personnes qui apprécient les créations simples.", "difference": "Un univers soigné, facile à comprendre.", "objectives": "Essayer la création de contenu dans la bêta.", "personality": "Simple, chaleureuse, créative.", "inspirations": "Lumière naturelle et cadrages sobres.", "boundaries": "Ne pas inventer de promesses ni de certifications.", "channels": "Instagram et TikTok : exemples fictifs uniquement.", "priorities": "Tester les photos, les idées vidéo et le calendrier."}','reviewed',1,'beta-fixture','fr','2026-10-15T23:56:00.000Z','beta-fixture','2026-10-15T23:56:00.000Z','Exemple fictif prérempli pour la bêta.','2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-4-post-0','beta-2026-4','2026-10-14','Instagram','Présenter notre univers fictif','Exemple de légende pour Café Nuage. À adapter pendant le test.',NULL,1,10,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO reward_events VALUES('beta-2026-4-reward','beta-2026-4','beta-2026-4-post-0',10,'Exemple fictif : première publication','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-4-post-1','beta-2026-4','2026-10-19','Instagram','Montrer un détail de notre référence','Exemple de légende pour Café Nuage. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-4-post-2','beta-2026-4','2026-10-22','Instagram','Partager une idée simple','Exemple de légende pour Café Nuage. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO clients VALUES('beta-2026-5','Nora Studio · bêta fictive','aea40a4231140674bbed6f4bba1262a807d949eea0b0ced31cb681f95c753bcb','{"workspaceType": "creator", "brand": "Nora Studio · fictif", "tone": "Simple, chaleureux et concret", "language": "fr", "colors": "#4b3895, #fff5fc", "studioVibe": "bold", "rules": "Données fictives pour la bêta. Préserver les références envoyées. Ne pas inventer de prix, de composition ou de résultats.", "validation": "direct", "imageCost": 1, "captionCost": 0, "variantCost": 1, "correctionCost": 1, "allowedEmails": [], "country": "FR", "sector": "general", "calendarHidden": [], "pointsPerPost": 10, "creatorStrategy": {"displayName": "Nora · personnage fictif", "bio": "Créatrice fictive pour explorer le studio.", "audience": "Les personnes qui aiment les idées créatives simples.", "positioning": "Montrer les petits gestes créatifs du quotidien.", "voice": "Naturelle et accessible", "visualWorld": "Lumière douce et violet", "boundaries": "Ne pas inventer de vécu ni de partenariat.", "action": "Partager une idée", "filmingResources": "Un téléphone près d’une fenêtre", "pillars": ["Créativité au quotidien", "Objets et petits rituels"], "platforms": ["Instagram", "TikTok"]}}',20,0,1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO beta_invites VALUES('beta-2026-5','aea40a4231140674bbed6f4bba1262a807d949eea0b0ced31cb681f95c753bcb',NULL,NULL,'2026-12-15T23:59:59.000Z');
+--> statement-breakpoint
+INSERT INTO beta_usage VALUES('beta-2026-5',0);
+--> statement-breakpoint
+INSERT INTO products VALUES('beta-2026-5-product','beta-2026-5','Un objet du quotidien','Une référence personnelle de démonstration, sans personne imposée.','Respecter la forme, la matière et les couleurs de la photo envoyée.','Démonstration uniquement.','Nora Studio','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO recipes VALUES('beta-2026-5-recipe','beta-2026-5','Une photo simple et lumineuse','{"count": 1, "size": "1024x1280", "language": "fr", "tone": "Simple et chaleureux", "scenes": ["Mettre en valeur la référence fournie sur une table près d’une fenêtre, lumière naturelle douce."], "instructions": "Préserver la référence et ses détails. Aucun texte ajouté, logo inventé ou transformation du corps."}',1,'2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO client_intakes VALUES('beta-2026-5','{"story": "Nora Studio est une marque fictive : Créatrice de contenu fictive.", "offer": "Un objet du quotidien de démonstration.", "audience": "Des personnes qui apprécient les créations simples.", "difference": "Un univers soigné, facile à comprendre.", "objectives": "Essayer la création de contenu dans la bêta.", "personality": "Simple, chaleureuse, créative.", "inspirations": "Lumière naturelle et cadrages sobres.", "boundaries": "Ne pas inventer de promesses ni de certifications.", "channels": "Instagram et TikTok : exemples fictifs uniquement.", "priorities": "Tester les photos, les idées vidéo et le calendrier."}','reviewed',1,'beta-fixture','fr','2026-10-15T23:56:00.000Z','beta-fixture','2026-10-15T23:56:00.000Z','Exemple fictif prérempli pour la bêta.','2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-5-post-0','beta-2026-5','2026-10-14','Instagram','Présenter notre univers fictif','Exemple de légende pour Nora Studio. À adapter pendant le test.',NULL,1,10,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO reward_events VALUES('beta-2026-5-reward','beta-2026-5','beta-2026-5-post-0',10,'Exemple fictif : première publication','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-5-post-1','beta-2026-5','2026-10-19','Instagram','Montrer un détail de notre référence','Exemple de légende pour Nora Studio. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');
+--> statement-breakpoint
+INSERT INTO publication_posts VALUES('beta-2026-5-post-2','beta-2026-5','2026-10-22','Instagram','Partager une idée simple','Exemple de légende pour Nora Studio. À adapter pendant le test.',NULL,0,NULL,1,0,'2026-10-15T23:56:00.000Z','2026-10-15T23:56:00.000Z');

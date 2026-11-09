@@ -1,0 +1,7 @@
+FFmpeg WebAssembly @ffmpeg/core 0.12.10 (single thread) and @ffmpeg/ffmpeg 0.12.15.
+Upstream source and build recipes: https://github.com/ffmpegwasm/ffmpeg.wasm
+Release sources: https://github.com/ffmpegwasm/ffmpeg.wasm/tree/v0.12.10
+Core binary is unmodified; chunks reassemble to the exact upstream ffmpeg-core.wasm.
+The core includes GPL-enabled FFmpeg and libx264. See FFMPEG-GPL-2.txt and upstream component licensing. FFmpeg sources: https://github.com/ffmpegwasm/FFmpeg
+The JavaScript API package @ffmpeg/ffmpeg is MIT licensed, Copyright (c) 2019 Jerome Wu.
+DejaVu Sans has its separate bundled FONT-LICENSE.txt.

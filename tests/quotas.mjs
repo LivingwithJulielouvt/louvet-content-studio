@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readyHarness as harness,photoForm} from './harness.mjs';
+let starts=0;const h=harness(async(url,opts)=>{if(opts.method==='POST'){starts++;return new Response(JSON.stringify({id:'resp-'+crypto.randomUUID(),status:'queued'}))}return new Response(JSON.stringify({status:'in_progress'}))});
+await h.call('state');const seed=(await h.call('seed',{})).data,c=seed.clients[0];const s=(await h.call('state?client='+c.id)).data,p=s.products[0],r=s.recipes[0],cfg=s.clients[0].config;const up=(await h.call('upload',photoForm(c.id,p.id))).data;
+await h.call('settings',{client_id:c.id,name:c.name,quota_limit:3,active:true,config:cfg});
+const base={client_id:c.id,product_id:p.id,recipe_id:r.id,photo_ids:[up.id]};
+const concurrent=await Promise.all(['concurrent-first','concurrent-second'].map(request_key=>h.call('generate',{...base,request_key})));
+assert.deepEqual(concurrent.map(x=>x.status).sort(),[200,409]);assert.equal(h.sqlite.prepare('SELECT quota_used FROM clients WHERE id=?').get(c.id).quota_used,3);assert.equal(starts,4);
+await h.call('settings',{client_id:c.id,name:c.name,quota_limit:30,active:true,config:cfg});
+const previous=starts;const duplicate=await Promise.all([1,2].map(()=>h.call('generate',{...base,request_key:'same-concurrent-key'})));assert.equal(duplicate[0].data.job_id,duplicate[1].data.job_id);assert.equal(starts-previous,4);assert.equal(h.sqlite.prepare('SELECT quota_used FROM clients WHERE id=?').get(c.id).quota_used,6);
+console.log('PASS: concurrent requests cannot exceed quota; concurrent duplicate requests create one job and one set of provider calls.');

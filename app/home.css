@@ -1,0 +1,907 @@
+/* Accueil public — identité Louvet & Partners (rouge, or, noir sur papier crème). Octobre 2026. */
+.louvet-public.h-site {
+  --lp-ink: #1a1a1a;
+  --lp-paper: #f6f1e9;
+  --lp-soft: #ece3d2;
+  --lp-muted: #5c554d;
+  --lp-line: #ddd3c3;
+  --h-red: #b8291a;
+  --h-red-dark: #962113;
+  --h-gold: #b08d3e;
+  --h-gold-text: #8a6c27;
+  --h-sand: #ece3d2;
+  --h-serif: Georgia, "Times New Roman", serif;
+  --h-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--h-sans);
+  color: var(--lp-ink);
+  background: var(--lp-paper);
+}
+.louvet-public.h-site a:focus-visible,
+.louvet-public.h-site button:focus-visible,
+.louvet-public.h-site summary:focus-visible,
+.louvet-public.h-site input:focus-visible,
+.louvet-public.h-site select:focus-visible,
+.louvet-public.h-site textarea:focus-visible {
+  outline: 3px solid var(--h-gold);
+  outline-offset: 3px;
+}
+.louvet-public.h-site h1,
+.louvet-public.h-site h2 {
+  font-family: var(--h-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  white-space: normal;
+}
+.louvet-public.h-site h3 {
+  font-family: var(--h-sans);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+/* Boutons */
+.louvet-public .h-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 26px;
+  border-radius: 2px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+}
+.louvet-public .h-btn-primary {
+  background: var(--h-red);
+  color: #fff;
+}
+.louvet-public .h-btn-primary:hover {
+  background: var(--h-red-dark);
+}
+.louvet-public .h-btn-ghost {
+  border-color: var(--lp-ink);
+  color: var(--lp-ink);
+  background: transparent;
+}
+.louvet-public .h-btn-light {
+  background: #fff;
+  color: var(--h-red);
+}
+.louvet-public .h-btn-light:hover {
+  background: var(--lp-paper);
+}
+.louvet-public .h-btn-small {
+  min-height: 40px;
+  padding: 8px 18px;
+  font-size: 14px;
+}
+.louvet-public .h-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.louvet-public .h-small {
+  font-size: 13px;
+  color: var(--lp-muted);
+  line-height: 1.6;
+}
+
+/* Bandeau de langue */
+.louvet-public .h-langbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
+  background: var(--lp-ink);
+  color: #f6f1e9;
+  font-size: 14px;
+  padding: 9px 48px 9px 16px;
+  position: relative;
+}
+.louvet-public .h-langbar button {
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  padding: 6px 2px;
+  min-height: 36px;
+}
+.louvet-public .h-langbar .h-langbar-close {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-decoration: none;
+  font-size: 22px;
+  width: 40px;
+}
+
+/* En-tête */
+.louvet-public .h-header {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border-bottom: 1px solid var(--lp-line);
+}
+.louvet-public .h-logo {
+  font-family: var(--h-serif);
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+  color: var(--lp-ink);
+}
+.louvet-public .h-logo span {
+  display: block;
+  font-family: var(--h-sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  margin: 6px 0 0 2px;
+  color: var(--h-red);
+}
+.louvet-public .h-nav {
+  display: flex;
+  gap: 26px;
+  margin: 0 auto;
+  font-size: 14px;
+}
+.louvet-public .h-nav a:hover {
+  color: var(--h-red);
+}
+.louvet-public .h-header-end {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+}
+.louvet-public .h-nav + .h-header-end {
+  margin-left: 0;
+}
+.louvet-public .h-login-short {
+  display: none;
+}
+.louvet-public .h-login {
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--lp-line);
+}
+.louvet-public.h-site .lp-language button {
+  color: var(--lp-muted);
+}
+.louvet-public.h-site .lp-language [aria-pressed="true"] {
+  color: var(--h-red);
+  text-decoration-color: var(--h-red);
+}
+
+/* Sections */
+.louvet-public main.h-main {
+  margin: 0;
+  overflow: hidden;
+}
+.louvet-public .h-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 112px) 24px 0;
+}
+.louvet-public .h-section > h2,
+.louvet-public .h-work-head h2,
+.louvet-public .h-human h2,
+.louvet-public .h-story h2,
+.louvet-public .h-price h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  max-width: 22ch;
+}
+
+/* Hero */
+.louvet-public .h-hero {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 96px) 24px 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: center;
+}
+.louvet-public .h-hero h1 {
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.05;
+  max-width: 17ch;
+}
+.louvet-public .h-lead {
+  font-size: 19px;
+  line-height: 1.6;
+  color: #3a3530;
+  margin-top: 26px;
+  max-width: 54ch;
+}
+.louvet-public .h-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+  margin: 34px 0 20px;
+}
+.louvet-public .h-hero-login {
+  font-size: 14px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-hero-login a {
+  color: var(--lp-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* La livraison du 3 : élément signature */
+.louvet-public .h-delivery {
+  margin: 0;
+  background: #fff;
+  padding: 22px 22px 18px;
+  box-shadow: 0 1px 0 var(--lp-line), 0 24px 50px -28px rgba(26, 26, 26, 0.35);
+  border-top: 4px solid var(--h-red);
+  transform: rotate(1.2deg);
+}
+.louvet-public .h-delivery-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.louvet-public .h-stamp {
+  font-family: var(--h-serif);
+  font-size: 76px;
+  line-height: 0.8;
+  color: var(--h-red);
+}
+.louvet-public .h-delivery-head b {
+  display: block;
+  font-size: 16px;
+}
+.louvet-public .h-delivery-head small {
+  font-size: 13px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.louvet-public .h-delivery-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+.louvet-public .h-delivery-grid .h-work-fallback {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+.louvet-public .h-delivery-grid .h-work-fallback small {
+  display: none;
+}
+.louvet-public .h-delivery-grid .h-work-fallback span {
+  font-size: 13px;
+}
+.louvet-public .h-delivery figcaption {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-delivery figcaption span {
+  color: var(--h-gold-text);
+  font-weight: 700;
+  margin-right: 4px;
+}
+.louvet-public .h-work-fallback {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 12px;
+  background: var(--h-sand);
+  color: var(--lp-ink);
+}
+.louvet-public .h-work-fallback:nth-child(3n + 2) {
+  background: #e3d5bd;
+}
+.louvet-public .h-work-fallback:nth-child(3n) {
+  background: #d9c9ad;
+}
+.louvet-public .h-work-fallback span {
+  font-family: var(--h-serif);
+  font-size: 18px;
+  line-height: 1.15;
+}
+.louvet-public .h-work-fallback small {
+  font-size: 12px;
+  color: var(--lp-muted);
+}
+
+/* Ce que vous recevez */
+.louvet-public .h-receive ul {
+  list-style: none;
+  margin: 44px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 48px;
+}
+.louvet-public .h-receive li {
+  border-top: 2px solid var(--lp-ink);
+  padding-top: 18px;
+}
+.louvet-public .h-receive li:first-child {
+  border-top-color: var(--h-red);
+}
+.louvet-public .h-receive li p,
+.louvet-public .h-method p,
+.louvet-public .h-compare p {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--lp-muted);
+}
+
+/* Un humain derrière chaque contenu */
+.louvet-public .h-human {
+  background: var(--lp-ink);
+  color: #f6f1e9;
+  margin-top: clamp(64px, 9vw, 112px);
+}
+.louvet-public .h-human-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 104px) 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 6vw, 96px);
+}
+.louvet-public .h-human-intro p {
+  margin-top: 22px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #d9d1c4;
+  max-width: 48ch;
+}
+.louvet-public .h-method {
+  list-style: none;
+  counter-reset: step;
+  margin: 0;
+  padding: 0;
+}
+.louvet-public .h-method li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  padding: 22px 0;
+  border-top: 1px solid #3a3632;
+}
+.louvet-public .h-method li:last-child {
+  border-bottom: 1px solid #3a3632;
+}
+.louvet-public .h-method li::before {
+  content: counter(step);
+  font-family: var(--h-serif);
+  font-size: 34px;
+  line-height: 1;
+  color: var(--h-gold);
+  grid-row: span 2;
+}
+.louvet-public .h-method h3 {
+  color: #fff;
+}
+.louvet-public .h-human .h-method p {
+  color: #c9c0b2;
+}
+
+/* Comparaison */
+.louvet-public .h-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 44px;
+  border: 1px solid var(--lp-line);
+}
+.louvet-public .h-compare-grid > div {
+  padding: 28px;
+}
+.louvet-public .h-compare-grid > div + div {
+  border-left: 1px solid var(--lp-line);
+}
+.louvet-public .h-compare-grid .h-compare-us {
+  background: var(--h-red);
+  color: #fff;
+  border-left-color: var(--h-red);
+}
+.louvet-public .h-compare-grid .h-compare-us p {
+  color: #fbe9e5;
+}
+
+/* Réalisations */
+.louvet-public .h-work-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 40px;
+}
+.louvet-public .h-work-head p {
+  color: var(--lp-muted);
+  max-width: 40ch;
+}
+.louvet-public .h-work-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 36px;
+}
+.louvet-public .h-work-grid figure {
+  margin: 0;
+}
+.louvet-public .h-work-grid img,
+.louvet-public .h-work-grid .h-work-fallback {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: flex;
+}
+.louvet-public .h-work-grid figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-work-grid figcaption b {
+  display: block;
+  color: var(--lp-ink);
+  font-weight: 600;
+}
+
+/* Notre histoire */
+.louvet-public .h-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.louvet-public .h-story-text p {
+  font-family: var(--h-serif);
+  font-size: 19px;
+  line-height: 1.75;
+  margin-top: 20px;
+  max-width: 60ch;
+  color: #2c2824;
+}
+.louvet-public .h-story-text h2 + p {
+  margin-top: 30px;
+}
+.louvet-public .h-story-text .h-signature {
+  font-family: var(--h-sans);
+  font-size: 14px;
+  color: var(--h-red);
+  font-weight: 600;
+  margin-top: 28px;
+}
+.louvet-public .h-refs {
+  background: var(--h-sand);
+  padding: 32px;
+  border-top: 4px solid var(--h-gold);
+}
+.louvet-public .h-refs > p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.louvet-public .h-refs ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+.louvet-public .h-refs-big li {
+  font-family: var(--h-serif);
+  font-size: 34px;
+  line-height: 1.2;
+}
+.louvet-public .h-refs-small {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 15px;
+  color: var(--lp-muted);
+  border-top: 1px solid #d6c9b2;
+  padding-top: 16px !important;
+}
+.louvet-public .h-agency-link {
+  display: inline-block;
+  margin-top: 26px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--h-red);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Tarif */
+.louvet-public .h-price {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+.louvet-public .h-price > div:first-child > p {
+  margin-top: 18px;
+  font-size: 18px;
+  max-width: 44ch;
+}
+.louvet-public .h-price-card {
+  background: #fff;
+  padding: 34px;
+  border-top: 4px solid var(--h-red);
+}
+.louvet-public .h-price-value {
+  font-family: var(--h-serif);
+  font-size: clamp(44px, 5vw, 60px);
+  line-height: 1;
+  white-space: nowrap;
+}
+.louvet-public .h-price-value small {
+  font-family: var(--h-sans);
+  font-size: 15px;
+  color: var(--lp-muted);
+  margin-left: 8px;
+}
+.louvet-public .h-price-year {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-price-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 26px 0 28px;
+}
+.louvet-public .h-price-card li {
+  padding: 10px 0 10px 26px;
+  border-top: 1px solid var(--lp-line);
+  position: relative;
+  font-size: 15px;
+}
+.louvet-public .h-price-card li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--h-gold-text);
+  font-weight: 700;
+}
+.louvet-public .h-price-card .h-small {
+  margin-top: 16px;
+}
+
+/* FAQ */
+.louvet-public .h-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 40px;
+}
+.louvet-public .h-faq details {
+  border-bottom: 1px solid var(--lp-line);
+}
+.louvet-public .h-faq summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+.louvet-public .h-faq summary::-webkit-details-marker {
+  display: none;
+}
+.louvet-public .h-faq summary span {
+  color: var(--h-red);
+  font-size: 22px;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+.louvet-public .h-faq details[open] summary span {
+  transform: rotate(45deg);
+}
+.louvet-public .h-faq details p {
+  padding: 0 0 22px;
+  color: var(--lp-muted);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 62ch;
+}
+
+/* Dernier appel */
+.louvet-public .h-final {
+  background: var(--h-red);
+  color: #fff;
+  text-align: center;
+  padding: clamp(64px, 9vw, 104px) 24px;
+  margin-top: clamp(64px, 9vw, 112px);
+}
+.louvet-public .h-final h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.12;
+  max-width: 20ch;
+  margin: 0 auto;
+}
+.louvet-public .h-final p {
+  margin: 18px auto 30px;
+  color: #fbe9e5;
+  font-size: 18px;
+  max-width: 46ch;
+}
+
+/* Pied de page */
+.louvet-public .h-footer {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 36px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 40px;
+  font-size: 14px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-footer .h-logo {
+  font-size: 24px;
+}
+.louvet-public .h-footer-links {
+  display: flex;
+  gap: 22px;
+}
+.louvet-public .h-footer-links a {
+  color: var(--lp-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Formulaire court */
+.louvet-public .h-form-main .lp-form-intro h1 {
+  font-size: clamp(36px, 5vw, 52px);
+}
+.louvet-public .h-form-main .lp-form-intro p {
+  font-size: 17px;
+  max-width: 56ch;
+}
+.louvet-public .h-form {
+  background: #fff;
+  border: 1px solid var(--lp-line);
+  border-top: 4px solid var(--h-red);
+  border-radius: 0;
+}
+.louvet-public .h-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 22px;
+  margin-bottom: 22px;
+}
+.louvet-public .h-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.louvet-public .h-form-grid input,
+.louvet-public .h-form-grid select,
+.louvet-public .h-form-grid textarea {
+  font-weight: 400;
+  font-size: 16px;
+  border: 1px solid #cfc4b2;
+  border-radius: 2px;
+  padding: 11px 12px;
+  background: #fffdf9;
+  color: var(--lp-ink);
+  min-height: 48px;
+  width: 100%;
+}
+.louvet-public .h-form-grid small {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--lp-muted);
+}
+.louvet-public .h-form-wide {
+  grid-column: 1 / -1;
+}
+.louvet-public .h-form .h-btn {
+  margin-top: 18px;
+}
+.louvet-public .h-form-note {
+  margin-top: 14px;
+}
+
+/* Tablette et mobile */
+@media (max-width: 1000px) {
+  .louvet-public .h-nav {
+    display: none;
+  }
+  .louvet-public .h-hero,
+  .louvet-public .h-human-inner,
+  .louvet-public .h-story,
+  .louvet-public .h-price,
+  .louvet-public .h-faq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .louvet-public .h-delivery {
+    transform: none;
+    max-width: 520px;
+  }
+  .louvet-public .h-receive ul {
+    grid-template-columns: 1fr 1fr;
+  }
+  .louvet-public .h-work-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .louvet-public .h-header {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .louvet-public .h-logo {
+    font-size: 24px;
+  }
+  .louvet-public .h-header-end {
+    gap: 6px;
+  }
+  .louvet-public .h-header-end .h-login {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .louvet-public .h-login-long {
+    display: none;
+  }
+  .louvet-public .h-login-short {
+    display: inline;
+  }
+  .louvet-public .h-footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .louvet-public .h-footer-links a {
+    white-space: nowrap;
+  }
+  .louvet-public.h-site .lp-language button {
+    min-width: 30px;
+    padding: 8px 3px;
+  }
+  .louvet-public .h-btn-small {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .louvet-public .h-hero,
+  .louvet-public .h-section,
+  .louvet-public .h-human-inner,
+  .louvet-public .h-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .louvet-public .h-lead {
+    font-size: 17px;
+  }
+  .louvet-public .h-receive ul,
+  .louvet-public .h-compare-grid,
+  .louvet-public .h-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .louvet-public .h-compare-grid > div + div {
+    border-left: none;
+    border-top: 1px solid var(--lp-line);
+  }
+  .louvet-public .h-work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .louvet-public .h-refs-big li {
+    font-size: 28px;
+  }
+  .louvet-public .h-price-card,
+  .louvet-public .h-refs {
+    padding: 24px;
+  }
+  .louvet-public .h-hero-actions .h-btn {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .louvet-public .h-faq summary span {
+    transition: none;
+  }
+}
+.louvet-public.h-site .lp-primary {
+  background: var(--h-red);
+  border-color: var(--h-red);
+  color: #fff;
+}
+.louvet-public.h-site .lp-primary:hover {
+  background: var(--h-red-dark);
+}
+.louvet-public.h-site .lp-login-card {
+  border-top: 4px solid var(--h-red);
+}
+
+.louvet-public .h-work-grid .h-work-fallback span {
+  display: none;
+}
+
+.louvet-public.h-site {
+  min-height: 100vh;
+}
+
+/* Le volume du mois, en grand, dès le titre */
+.louvet-public .h-stats {
+  list-style: none;
+  margin: 30px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 2px solid var(--lp-ink);
+  border-bottom: 1px solid var(--lp-line);
+}
+.louvet-public .h-stats li {
+  padding: 16px 14px 18px 0;
+}
+.louvet-public .h-stats li + li {
+  padding-left: 16px;
+  border-left: 1px solid var(--lp-line);
+}
+.louvet-public .h-stats b {
+  display: block;
+  font-family: var(--h-serif);
+  font-weight: 400;
+  font-size: clamp(44px, 4.6vw, 64px);
+  line-height: 1;
+  color: var(--h-red);
+}
+.louvet-public .h-stats span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.louvet-public .h-hero .h-stats + .h-lead {
+  margin-top: 22px;
+}
+@media (max-width: 650px) {
+  .louvet-public .h-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .louvet-public .h-stats li:nth-child(3) {
+    padding-left: 0;
+    border-left: none;
+  }
+  .louvet-public .h-stats li:nth-child(n + 3) {
+    border-top: 1px solid var(--lp-line);
+  }
+}
+
+.louvet-public .h-sub {
+  margin-top: 20px;
+  font-family: var(--h-serif);
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.4;
+  color: #3a3530;
+  max-width: 34ch;
+}
+/* Connexion : étape du code */
+.louvet-public .lp-code-sent{margin:0 0 4px;padding:10px 12px;border-radius:10px;background:#f3efe6;font-size:14px;line-height:1.45}
+.louvet-public .lp-code-links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:10px}
+.louvet-public .lp-code-links .text-link:disabled{opacity:.55;cursor:default}
+
+/* Phase de test gratuite : prix futur barré, mention « gratuit » */
+.h-price-beta { display:inline-block; margin:0 0 10px; padding:6px 12px; border-radius:999px; background:#EFE6DA; color:#7A5240; font-weight:600; font-size:.9rem; }
+.h-price-value.is-beta { text-decoration: line-through; text-decoration-thickness: 2px; opacity:.55; }

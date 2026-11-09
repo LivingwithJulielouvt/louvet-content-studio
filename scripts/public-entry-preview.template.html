@@ -1,0 +1,65 @@
+<div id="louvet-public-preview">
+<style>
+/*PUBLIC_CSS*/
+#louvet-public-preview{width:100%;background:transparent}
+#louvet-public-preview>[data-preview-panel][hidden]{display:none!important}
+#louvet-public-preview .cursor-interaction{cursor:inherit}
+#louvet-public-preview .lp-preview-status:empty{display:none}
+#louvet-public-preview .lp-preview-status{padding:12px 5%;background:#e5ead8;color:#19372e;font:13px/1.7 Arial,sans-serif}
+</style>
+<div class="lp-preview-status">Accueil préparé sur chatgpt.site · connexion e-mail proposée après migration · simulation sans envoi</div>
+<div class="lp-preview-status" data-announcement role="status" aria-live="polite"></div>
+<!--PUBLIC_PANELS-->
+<script>
+(function(){
+ const root=document.getElementById('louvet-public-preview');
+ const qbank=/*QUESTION_DATA*/null;
+ const panels=Array.from(root.querySelectorAll('[data-preview-panel]'));
+ let language='fr',view='home',step=0,draft=null,signed=false,emailStep=false,enteredEmail='',destination='entry';
+ const labels={fr:{next:'Enregistrer et continuer →',back:'Précédent',send:'Envoyer ma demande →',draft:'Brouillon gardé pour cet aperçu seulement.',clear:'Brouillon effacé.',login:'L’espace client utilise une connexion ChatGPT. Aucune connexion n’est lancée dans cet aperçu.',receipt:'Simulation : votre demande est prête. Aucune donnée transmise et aucun e-mail envoyé.'},es:{next:'Guardar y continuar →',back:'Anterior',send:'Enviar mi solicitud →',draft:'Borrador guardado solo para esta vista previa.',clear:'Borrador borrado.',login:'El espacio de cliente requiere iniciar sesión con ChatGPT. Esta vista previa no inicia una conexión.',receipt:'Simulación: tu solicitud está lista. No se enviaron datos ni correos.'}};
+ function current(){return panels.find(p=>p.dataset.lang===language&&p.dataset.view===view)}
+ function announce(message){root.querySelector('[data-announcement]').textContent=message}
+ function values(form){return Object.fromEntries(Array.from(form.querySelectorAll('input[name],textarea[name]')).map(el=>[el.name,el.value]))}
+ function fill(form,answers){form.querySelectorAll('input[name],textarea[name]').forEach(el=>{el.value=answers[el.name]||''})}
+ function updateQuestions(form){
+  const kind=form.querySelector('select').value;
+  const questions=qbank[kind]||qbank.brand;
+  form.querySelectorAll('.lp-question').forEach(label=>{const key=label.querySelector('textarea').name;const q=questions.find(q=>q.key===key)[language];label.querySelector(':scope>span').lastChild.textContent=q[0];label.querySelector('p').textContent=q[1]});
+  form.querySelectorAll('.lp-review-answer').forEach((answer,i)=>{answer.querySelector('b').textContent=questions[i][language][0]});
+ }
+ function update(form){
+  updateQuestions(form);
+  form.querySelector('.lp-profile').hidden=step!==0;
+  form.querySelectorAll('[data-form-step]').forEach(section=>{section.hidden=Number(section.dataset.formStep)!==step});
+  form.querySelectorAll('input[name],textarea[name]').forEach(el=>{el.required=!el.closest('[hidden]')});
+  const consent=form.querySelector('.lp-consent input');consent.required=step===3;
+  const steps=current().querySelectorAll('.lp-form-steps li');steps.forEach((li,i)=>{li.classList.toggle('active',i===step);if(i===step)li.setAttribute('aria-current','step');else li.removeAttribute('aria-current')});
+  const actions=form.querySelector('.lp-form-actions');actions.replaceChildren();
+  if(step>0){const back=document.createElement('button');back.type='button';back.className='lp-button lp-secondary cursor-interaction';back.dataset.formBack='';back.textContent=labels[language].back;actions.append(back)}
+  const next=document.createElement('button');next.type='submit';next.className='lp-button lp-primary cursor-interaction';next.textContent=step===3?labels[language].send:labels[language].next;actions.append(next);
+  if(step===3){const data=values(form);form.querySelector('[data-review="name"]').textContent=data.name||'';form.querySelector('[data-review="contact"]').textContent=(data.first_name||'')+' · '+(data.email||'');form.querySelectorAll('[data-answer-review]').forEach(el=>{el.textContent=data[el.dataset.answerReview]||''})}
+ }
+ function show(){panels.forEach(p=>{p.hidden=p.dataset.lang!==language||p.dataset.view!==view});if(view==='form')update(current().querySelector('form'));if(view==='login'){current().querySelector('.lp-email-login').hidden=emailStep;current().querySelector('.lp-email-code').hidden=!emailStep;current().querySelector('[name=login_email]').value=enteredEmail}}
+ function copyForm(from,to){if(!from||!to)return;fill(to,values(from));to.querySelector('select').value=from.querySelector('select').value;to.querySelector('.lp-consent input').checked=from.querySelector('.lp-consent input').checked}
+ root.addEventListener('click',event=>{
+  const lang=event.target.closest('[data-language]');
+  if(lang){const previous=current();language=lang.dataset.language;const destination=panels.find(p=>p.dataset.lang===language&&p.dataset.view===view);if(view==='form')copyForm(previous.querySelector('form'),destination.querySelector('form'));announce('');show();return}
+  const back=event.target.closest('[data-form-back]');if(back){step=Math.max(0,step-1);update(back.closest('form'));announce('');return}
+  const draftButton=event.target.closest('.lp-draft-actions button');if(draftButton&&!draftButton.closest('.lp-email-code')){const form=draftButton.closest('form'),index=Array.from(draftButton.parentElement.children).indexOf(draftButton);if(index===0){draft={...values(form),step};announce(labels[language].draft)}else if(index===1){if(draft){fill(form,draft);step=draft.step;update(form)}announce(labels[language].draft)}else{draft=null;announce(labels[language].clear)}return}
+  if(event.target.closest('[data-email-reset]')){emailStep=false;show();return}if(event.target.closest('[data-email-resend]')){announce(language==='fr'?'Simulation : aucun e-mail envoyé. Utilisez 123456.':'Simulación: ningún correo enviado. Usa 123456.');return}
+  const link=event.target.closest('a');if(!link)return;const href=link.getAttribute('href');event.preventDefault();
+  if(href.startsWith('/connexion')){destination=new URL(href,'https://preview.local').searchParams.get('next')?.startsWith('/souscrire')?'form':'entry';view=signed?destination:'login';if(view==='form'){const input=current().querySelector('input[name=email]');input.value=enteredEmail;input.readOnly=true;}announce('');show();return}
+  if(href.startsWith('/souscrire')){destination='form';view=signed?'form':'login';step=0;announce('');show();return}
+  if(href.startsWith('/?')){view='home';announce('');show();return}
+  if(href.startsWith('#')){current().querySelector(href)?.scrollIntoView({block:'start'})}
+ });
+ root.addEventListener('change',event=>{if(event.target.matches('select'))updateQuestions(event.target.closest('form'))});
+ root.addEventListener('submit',event=>{event.preventDefault();const form=event.target;if(!form.reportValidity())return;
+ if(form.classList.contains('lp-email-login')){enteredEmail=form.querySelector('input').value;emailStep=true;show();return}
+ if(form.classList.contains('lp-email-code')){if(form.querySelector('input').value!=='123456'){form.querySelector('.lp-code-error').textContent=language==='fr'?'Pour cette simulation, utilisez le code 123456.':'Para esta simulación, usa el código 123456.';return}signed=true;view=destination;step=0;if(view==='form'){const field=current().querySelector('input[name=email]');field.value=enteredEmail;field.readOnly=true;}announce(language==='fr'?'Connexion simulée. Aucun compte ni accès réel créé.':'Conexión simulada. No se creó ninguna cuenta ni acceso real.');show();return}
+ if(step<3){step++;update(form);announce('')}else{announce(labels[language].receipt)}});
+ root.querySelectorAll('button,a,summary').forEach(el=>el.classList.add('cursor-interaction'));
+ show();
+})();
+</script>
+</div>

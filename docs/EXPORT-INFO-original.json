@@ -1,0 +1,12 @@
+{
+  "project": "Louvet Content Studio",
+  "export_date_utc": "2026-10-16",
+  "source_commit": "3268a68b1dbf507a1bcdf40a92774b86b5649ec9",
+  "tracked_source_files": 230,
+  "uncommitted_changes": false,
+  "native_site_project_id": "appgprj_6ad01024e2508191b26c6920ce76b201",
+  "scope": "Complete current source checkout, including unpublished reviewed changes; no live database, customer files, credentials, node_modules or git history.",
+  "original_readme_preserved_at": "docs/README-original-native.md",
+  "production_mutations_performed": false,
+  "migration_performed": false
+}

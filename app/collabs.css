@@ -1,0 +1,94 @@
+/* Collaborations marques ↔ créatrices, et Reels avec Julie. */
+.collabs{display:flex;flex-direction:column;gap:14px;min-width:0}
+.collab-card{background:var(--paper,#fff);border:1px solid var(--line);border-radius:var(--client-radius,12px);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.collab-card h3{margin:0;display:flex;align-items:center;gap:8px;font-family:var(--client-heading,inherit)}
+.collab-card p{margin:0}
+.collab-count{display:inline-flex;min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:var(--brand-strong,var(--ink));color:var(--brand-on,#fff);font-size:12px;font-weight:700;align-items:center;justify-content:center}
+.collab-consent{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;font-weight:600;line-height:1.4}
+.collab-consent input{width:22px;height:22px;flex:0 0 auto;margin:0;accent-color:var(--brand-strong,var(--ink))}
+.collab-form{display:flex;flex-direction:column;gap:12px}
+.collab-form label,.collab-reply label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600}
+.collab-form textarea,.collab-form input:not([type=checkbox]),.collab-form select,.collab-reply textarea,.collab-reply input{border:1px solid var(--line);border-radius:9px;padding:10px 11px;font-weight:400;min-height:42px;width:100%;margin:0;background:var(--paper,#fff)}
+.collab-form small,.collab-reply small{font-weight:400;color:var(--muted);align-self:flex-end;font-size:11.5px}
+.collab-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.collab-chips{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:7px}
+.collab-chips legend{font-size:13px;font-weight:600;margin-bottom:7px;width:100%;padding:0}
+.collab-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:8px 13px;font-size:13px;cursor:pointer;min-height:38px;background:var(--paper,#fff)}
+.collab-chip input{position:absolute;opacity:0;pointer-events:none}
+.collab-chip.on{background:var(--brand-strong,var(--ink));border-color:var(--brand-strong,var(--ink));color:var(--brand-on,#fff)}
+.collab-chip:focus-within{outline:2px solid var(--brand-strong,var(--ink));outline-offset:2px}
+.collab-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.collab-small{font-size:12.5px;color:var(--muted)}
+.collab-ok{color:#2f5f35;font-size:13.5px}
+.collab-list{display:flex;flex-direction:column;gap:10px}
+.collab-item{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:9px}
+.collab-item header,.collab-brand header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.collab-item header small,.collab-brand header small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.collab-item.st-declined{opacity:.7}
+.collab-msg{font-size:13.5px;line-height:1.55;white-space:pre-wrap;margin:0}
+.collab-links{display:flex;gap:14px;flex-wrap:wrap}
+.collab-link{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.collab-badge{flex:0 0 auto;font-size:11px;font-weight:600;padding:4px 9px;border-radius:999px;background:#fde9cf;color:#8a4b0f}
+.collab-badge.st-accepted{background:#dfeedd;color:#2f5f35}
+.collab-badge.st-declined{background:#f1eeee;color:#7a6262}
+.collab-badge.studio{background:var(--brand-soft,#f3ece6);color:var(--brand-strong,var(--ink))}
+.collab-reply{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:10px}
+/* Créatrice : marques du studio */
+.collab-studio{background:var(--mint-soft,#f3efe9);border-radius:var(--client-radius,12px);padding:16px;display:flex;flex-direction:column;gap:12px}
+.collab-studio-head{display:flex;gap:10px;align-items:flex-start}
+.collab-studio-head h3{margin:0 0 3px}
+.collab-studio-head p{margin:0;font-size:13.5px}
+.collab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.collab-brand{background:var(--paper,#fff);border:1px solid var(--line);border-radius:var(--client-radius,12px);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;align-items:flex-start}
+.collab-brand header{width:100%}
+.collab-brand h4{margin:0;font-size:16px;font-family:var(--client-heading,inherit)}
+.collab-offer-tags{display:flex;gap:6px;flex-wrap:wrap}
+.collab-offer-tags span{font-size:11.5px;font-weight:600;border-radius:999px;padding:4px 9px;background:#eef1e8;color:#4f6648}
+.collab-brand .collab-reply{width:100%}
+.collab-accepted{width:100%;background:#eef6ec;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.collab-accepted p{margin:0;font-size:13.5px}
+.collab-mail{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.collab-mail a{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;text-decoration:underline;overflow-wrap:anywhere}
+.collab-history{background:var(--paper,#fff);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.collab-history summary{cursor:pointer;font-weight:600}
+.collab-history .collab-item{margin-top:10px}
+/* Reels avec Julie */
+.reel-card{border-color:var(--brand-strong,var(--line))}
+.reel-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:13.5px;line-height:1.5}
+.reel-form{display:flex;gap:8px;flex-wrap:wrap}
+.reel-form input{flex:1 1 240px;min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;margin:0}
+.reel-claims{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.reel-claims li{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:8px;font-size:13px}
+.reel-claims a{text-decoration:underline;overflow-wrap:anywhere}
+.reel-status{font-weight:600;color:#2f5f35}
+.reel-status.st-pending{color:#8a4b0f}
+.reel-status.st-refused{color:#8e3a33}
+.reel-teaser{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px dashed var(--brand-strong,var(--line));background:var(--paper,#fff);border-radius:var(--client-radius,12px);padding:12px 14px;font-size:13.5px;margin-top:12px;cursor:pointer}
+.reel-teaser span{flex:1}
+.reel-teaser b{white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:600px){
+  .reel-form .button{width:100%;justify-content:center}
+  .reel-teaser{flex-wrap:wrap}
+}
+/* Relecture des offres par l'agence */
+.collab-review{display:flex;gap:8px;align-items:flex-start;margin:12px 0 4px;padding:10px 14px;border-radius:10px;font-size:14px;line-height:1.5}
+.collab-review svg{flex:none;margin-top:3px}
+.collab-review.pending{background:#fff6e5;color:#7a4b00}
+.collab-review.pending svg{animation:none}
+.collab-review.ok{background:#eef6ee;color:#2f6b3a}
+.collab-review.refused{background:#fbecea;color:#9d3f39;flex-wrap:wrap}
+.collab-card-alert{border-color:#e7b04a;box-shadow:0 0 0 3px #fff3dc}
+.offer-review-list{display:grid;gap:14px}
+.offer-review{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+.offer-review header{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:10px}
+.offer-review header small{color:var(--muted)}
+.offer-review dl{display:grid;gap:8px;margin:0 0 12px}
+.offer-review dl>div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px}
+.offer-review dt{color:var(--muted);font-size:13px}
+.offer-review dd{margin:0;overflow-wrap:anywhere}
+.offer-review dl>div.changed dd{background:#fff6e5;border-radius:6px;padding:2px 6px}
+.offer-review del{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.offer-review-reason{display:grid;gap:6px;margin-bottom:10px}
+.offer-review-reason input{width:100%}
+@media(max-width:640px){.offer-review dl>div{grid-template-columns:1fr;gap:2px}}
+.nav-item .count.count-alert,.sidebar .count.count-alert{background:#c0392b;color:#fff;border-color:#c0392b}

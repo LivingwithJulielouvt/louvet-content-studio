@@ -1,0 +1,26 @@
+// Vidéo avant / après de l'atelier « Modèles », rendue avec le vrai moteur WebAssembly livré au navigateur.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {beforeAfterArgs} from '../lib/templates.mjs';
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'louvet-ba-'));
+const native=(args)=>execFileSync('ffmpeg',['-hide_banner','-loglevel','error','-y',...args],{cwd:dir,stdio:'pipe'});
+native(['-f','lavfi','-i','color=c=#884422:s=360x450','-frames:v','1','before.png']);
+native(['-f','lavfi','-i','color=c=#22aa88:s=360x450','-frames:v','1','after.png']);
+globalThis.self={location:{href:'file:///ffmpeg-core.js'}};
+const create=(await import('../node_modules/@ffmpeg/core/dist/esm/ffmpeg-core.js')).default;
+const ff=await create({wasmBinary:fs.readFileSync(new URL('../node_modules/@ffmpeg/core/dist/esm/ffmpeg-core.wasm',import.meta.url))});
+const logs=[];ff.setLogger(x=>logs.push(x.message));
+for(const f of ['before.png','after.png'])ff.FS.writeFile(f,fs.readFileSync(path.join(dir,f)));
+ff.setTimeout(300000);ff.exec(...beforeAfterArgs({width:360,height:450}));assert.equal(ff.ret,0,logs.slice(-15).join('\n'));
+fs.writeFileSync(path.join(dir,'out.mp4'),ff.FS.readFile('beforeafter.mp4'));
+const probe=JSON.parse(execFileSync('ffprobe',['-v','error','-show_entries','format=duration:stream=width,height,codec_name','-of','json','out.mp4'],{cwd:dir}));
+assert.equal(probe.streams[0].codec_name,'h264');assert.equal(probe.streams[0].width,360);assert.equal(probe.streams[0].height,450);assert.ok(Math.abs(Number(probe.format.duration)-7)<0.2);
+const pixel=(t,x)=>{native(['-ss',String(t),'-i','out.mp4','-frames:v','1','-vf',`crop=2:2:${x}:224`,'-f','rawvideo','-pix_fmt','rgb24','px.raw']);return [...fs.readFileSync(path.join(dir,'px.raw'))]};
+const isBefore=p=>p[0]>p[1],isAfter=p=>p[1]>p[0];
+assert.ok(isBefore(pixel(0.5,20))&&isBefore(pixel(0.5,340)),'starts on the before photo');
+assert.ok(isAfter(pixel(3,20))&&isBefore(pixel(3,340)),'wipe in progress at 3 s');
+assert.ok(isAfter(pixel(6,20))&&isAfter(pixel(6,340)),'ends on the after photo');
+console.log('templates-render OK — avant / après 7 s, H.264, dévoilement gauche → droite, moteur WebAssembly');
