@@ -89,3 +89,8 @@
 
 /* Badge compte à rebours du menu : toujours sur une ligne */
 .count.soon { white-space: nowrap; min-width: max-content; padding: 2px 7px; }
+
+/* Agence › Options ouvertes à cet espace / Créer une invitation */
+.client-access-list { display: grid; gap: 8px; margin: 12px 0; }
+.beta-invite-creator .form-grid { margin: 12px 0; }
+.beta-invite-creator code { font-size: 13px; user-select: all; word-break: break-all; }

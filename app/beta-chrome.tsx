@@ -187,7 +187,7 @@ export function BetaAgency({ beta }: { beta: any }) {
   return (
     <section className="panel">
       <span className="eyebrow">BÊTA SUR INVITATION</span>
-      <h2>Les cinq espaces de test</h2>
+      <h2>Les espaces de test</h2>
       <p>
         Chaque invitation est liée au premier compte e-mail Supabase qui l’utilise. La limite de 20 tentatives d’image
         comprend les corrections et les reprises et ne se renouvelle pas.

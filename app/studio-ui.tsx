@@ -8,6 +8,7 @@ import FeaturesPanel from "./features-panel";
 import { OppCountdown, OppTeaser, oppDaysLeft } from "./opp-countdown";
 import StudioMail, { MailPreference } from "./studio-mail";
 import { BetaAgency } from "./beta-chrome";
+import { ClientAccessPanel, BetaInviteCreator } from "./client-access";
 import BillingPanel, { BillingNotice, AgencyBillingSummary } from "./billing-panel";
 import PublicationCalendar, { Rewards, AgencyPublicationSummary, EmailDelivery } from "./publication-calendar";
 import CreatorStrategy from "./creator-strategy";
@@ -264,6 +265,11 @@ export default function Studio() {
     document.querySelector(".sidebar .nav-item.active")?.scrollIntoView({ block: "nearest" });
   }, [tab, client?.id, isAgency]);
   const creator = isCreator(client?.config);
+  // Montage vidéo : fermé par défaut, l'agence l'ouvre client par client (Marque & accès › Options de cet espace).
+  const videoOn = isAgency || client?.config?.access?.video === true;
+  useEffect(() => {
+    if (!videoOn && ["montage", "videos", "versions"].includes(tab)) setTab("overview");
+  }, [videoOn, tab]);
   // Langue de l'interface : choix mémorisé sur l'appareil, sinon langue du client. L'agence reste en français.
   const [uiLang, setUiLang] = useState<Lang | null>(null);
   useEffect(() => {
@@ -1027,7 +1033,7 @@ export default function Studio() {
         ["overview", L("Accueil", "Inicio", "Home"), LayoutGrid],
         ["create", L("Créer", "Crear", "Create"), Sparkles],
         ["creations", L("Mes visuels", "Mis imágenes", "My visuals"), ImageIcon],
-        ["montage", L("Mes vidéos", "Mis videos", "My videos"), Video],
+        ...(videoOn ? [["montage", L("Mes vidéos", "Mis videos", "My videos"), Video]] : []),
         ["publication", L("Mon calendrier", "Mi calendario", "My calendar"), CalendarDays],
         ...(creator && (feat.opportunities || oppDays !== null) ? [["opportunities", L("Opportunités", "Oportunidades", "Opportunities"), Handshake]] : []),
         ["billing", L("Mon compte", "Mi cuenta", "My account"), CreditCard],
@@ -1597,7 +1603,12 @@ export default function Studio() {
                 {tab === "opportunities" && !isAgency && client && creator && feat.opportunities && (
                   <Opportunities data={data} client={client} refresh={() => load()} />
                 )}
-                {tab === "beta" && isAgency && <BetaAgency beta={data.beta} />}
+                {tab === "beta" && isAgency && (
+                  <>
+                    <BetaInviteCreator data={data} refresh={() => load()} />
+                    <BetaAgency beta={data.beta} />
+                  </>
+                )}
                 {tab === "overview" && !isAgency && (
                   <>
                     <ClientGuide
@@ -1621,6 +1632,7 @@ export default function Studio() {
                                 : L("À partir de vos photos", "A partir de tus fotos", "From your own photos")}
                             </span>
                           </button>
+                          {videoOn && (
                           <button onClick={() => setTab("videos")}>
                             <Video size={23} />
                             <b>{L("Filmer une vidéo", "Grabar un video", "Film a video")}</b>
@@ -1632,6 +1644,7 @@ export default function Studio() {
                               )}
                             </span>
                           </button>
+                          )}
                           {!noRecipe && (
                           <button onClick={() => setTab("templates")}>
                             <Shapes size={23} />
@@ -3013,6 +3026,7 @@ export default function Studio() {
                 )}
                 {tab === "brand" && isAgency && (
                   <>
+                    <ClientAccessPanel key={"access-" + client.id} client={client} data={data} refresh={() => load()} />
                     <SiteImportAgency data={data} refresh={() => load()} />
                     <TemplatesAgency key={"templates-agency-" + client.id} data={data} client={client} refresh={() => load()} />
                     <button className="button secondary" onClick={() => setIntakePreview(true)}>
@@ -3445,7 +3459,7 @@ export default function Studio() {
                 ["montage", L("Vidéos", "Videos", "Videos"), Video],
                 ["publication", L("Calendrier", "Calendario", "Calendar"), CalendarDays],
               ] as [string, string, any][]
-            ).map(([id, label, Icon]) => (
+            ).filter(([id]) => videoOn || id !== "montage").map(([id, label, Icon]) => (
               <button
                 key={id}
                 disabled={videoRendering}
