@@ -525,3 +525,10 @@
 @media (max-width:600px){.offer-teaser .button{width:100%;justify-content:center}}
 .billing-price .billing-amount{font-size:30px;font-weight:600;letter-spacing:-.5px}
 .billing-price .billing-lines{font-size:14px}
+
+/* Visuel multi-produits : choix des produits en plus */
+.extra-products{margin:-4px 0 14px;display:grid;gap:8px}
+.extra-products p{margin:0;font-size:13.5px}
+.extra-product-chips{display:flex;flex-wrap:wrap;gap:8px}
+.extra-product-chips .chip{cursor:pointer}
+.extra-product-chips .chip:disabled{opacity:.45;cursor:not-allowed}

@@ -105,6 +105,9 @@ const formatLabels: Record<string, [string, string, string]> = {
 const formatsFor = (lang: Lang): Row =>
   Object.fromEntries(Object.entries(formatLabels).map(([k, v]) => [k, pick(lang, ...v)]));
 const uid = () => crypto.randomUUID();
+// Nom affiché d'une création : « Produit A + Produit B » quand plusieurs produits sont sur le même visuel.
+const productsLabel = (cfg: Row) =>
+  [cfg?.product?.name, ...((cfg?.extraProducts || []) as Row[]).map((p) => p.name)].filter(Boolean).join(" + ");
 const extraTitles: Record<string, [string, string]> = {
   features: ["Ce que voient vos clientes.", "Allumez une fonction quand elle est prête : elle apparaît chez toutes les clientes."],
   delivery: [
@@ -229,6 +232,8 @@ export default function Studio() {
     [codes, setCodes] = useState<Row[]>([]);
   const [occasion, setOccasion] = useState("");
   const [product, setProduct] = useState(""),
+    // Autres produits à montrer sur le même visuel (3 maximum en plus du principal).
+    [extraProducts, setExtraProducts] = useState<string[]>([]),
     [recipe, setRecipe] = useState(""),
     [photos, setPhotos] = useState<string[]>([]),
     [personal, setPersonal] = useState(false),
@@ -362,7 +367,15 @@ export default function Studio() {
   }, [selected, product]);
   useEffect(() => {
     setPlace("");
+    setExtraProducts([]);
   }, [selected]);
+  // Produits proposables en plus : ceux qui ont déjà au moins une photo enregistrée.
+  const productsWithPhotos = new Set(
+    (data?.files || []).filter((f: Row) => f.purpose === "original" && f.product_id).map((f: Row) => f.product_id),
+  );
+  const extraChoices: Row[] = (data?.products || []).filter(
+    (p: Row) => p.id !== product && productsWithPhotos.has(p.id),
+  );
   useEffect(() => {
     if (!data) return;
     const ids = data.jobs
@@ -470,6 +483,7 @@ export default function Studio() {
         product_id: product,
         recipe_id: recipe,
         photo_ids: photos,
+        extra_product_ids: extraProducts.filter((id) => extraChoices.some((p) => p.id === id)),
         brief: personal ? brief : "",
         overlay_text: overlayOn && overlayText.trim() ? overlayText.trim() : undefined,
         overlay_style: overlayOn && overlayText.trim() ? overlayStyle : undefined,
@@ -1721,7 +1735,7 @@ export default function Studio() {
                                 )}
                               </div>
                               <div>
-                                <b>{j.config.product.name}</b>
+                                <b>{productsLabel(j.config)}</b>
                                 <small>{dates(j.created)}</small>
                               </div>
                               <span className={"status " + j.status}>{statuses[j.status]}</span>
@@ -1887,7 +1901,15 @@ export default function Studio() {
                           }
                         >
                           <div className="select-add">
-                            <select value={product} onChange={(e) => setProduct(e.target.value)}>
+                            <select
+                              value={product}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setProduct(v);
+                                // Le produit principal ne peut pas être aussi un produit « en plus ».
+                                setExtraProducts((x) => x.filter((id) => id !== v));
+                              }}
+                            >
                               {!data.products.length && (
                                 <option value="">
                                   {creator
@@ -1918,6 +1940,51 @@ export default function Studio() {
                             </button>
                           </div>
                         </Field>
+                        {!creator && extraChoices.length > 0 && (
+                          <div className="extra-products">
+                            <p>
+                              <b>
+                                {L(
+                                  "Ajouter d’autres produits sur le même visuel",
+                                  "Agregar otros productos en la misma imagen",
+                                  "Add other products to the same visual",
+                                )}
+                              </b>{" "}
+                              <small className="muted">
+                                {L("(facultatif, 3 maximum)", "(opcional, máximo 3)", "(optional, 3 max)")}
+                              </small>
+                            </p>
+                            <div className="extra-product-chips">
+                              {extraChoices.map((p: Row) => {
+                                const on = extraProducts.includes(p.id);
+                                return (
+                                  <button
+                                    key={p.id}
+                                    type="button"
+                                    className={"chip" + (on ? " active" : "")}
+                                    aria-pressed={on}
+                                    disabled={!on && extraProducts.length >= 3}
+                                    onClick={() =>
+                                      setExtraProducts((x) => (on ? x.filter((id) => id !== p.id) : [...x, p.id].slice(0, 3)))
+                                    }
+                                  >
+                                    {on ? "✓ " : "+ "}
+                                    {p.name}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                            {extraProducts.length > 0 && (
+                              <small className="muted">
+                                {L(
+                                  "Les photos déjà enregistrées de ces produits sont utilisées automatiquement.",
+                                  "Se usan automáticamente las fotos ya guardadas de estos productos.",
+                                  "The saved photos of these products are used automatically.",
+                                )}
+                              </small>
+                            )}
+                          </div>
+                        )}
                         <Field
                           label={L("Le type de visuel", "El tipo de imagen", "Visual style")}
                           hint={
@@ -2385,7 +2452,7 @@ export default function Studio() {
                                 )}
                               </div>
                               <div>
-                                <b>{j.config.product.name}</b>
+                                <b>{productsLabel(j.config)}</b>
                                 <small>{dates(j.created)}</small>
                               </div>
                               <span className={"status " + j.status}>{statuses[j.status]}</span>
@@ -2446,7 +2513,7 @@ export default function Studio() {
                         </button>
                         <span className={"status " + job.status}>{statuses[job.status]}</span>
                       </div>
-                      <h2>{job.config.product.name}</h2>
+                      <h2>{productsLabel(job.config)}</h2>
                       <p className="muted">
                         {dates(job.created)} · {formats[job.config.recipe.size]}
                         {job.parent_id
@@ -2474,7 +2541,7 @@ export default function Studio() {
                             <article className="visual-card" key={t.id}>
                               <div className="visual">
                                 {t.output_file ? (
-                                  <img src={"/api/studio/file/" + t.output_file} alt={job.config.product.name} />
+                                  <img src={"/api/studio/file/" + t.output_file} alt={productsLabel(job.config)} />
                                 ) : (
                                   <div className="visual-wait">
                                     {t.status === "failed" || t.status === "uncertain" ? (
@@ -2629,7 +2696,7 @@ export default function Studio() {
                             <button className="creation-card" key={j.id} onClick={() => setDetail(j)}>
                               <div className="visual">
                                 {t ? (
-                                  <img src={"/api/studio/file/" + t.output_file} alt={j.config.product.name} />
+                                  <img src={"/api/studio/file/" + t.output_file} alt={productsLabel(j.config)} />
                                 ) : (
                                   <div className="visual-wait">
                                     <ImageIcon size={35} />
@@ -2639,7 +2706,7 @@ export default function Studio() {
                               </div>
                               <div className="creation-card-body">
                                 <span className={"status " + j.status}>{statuses[j.status]}</span>
-                                <h3>{j.config.product.name}</h3>
+                                <h3>{productsLabel(j.config)}</h3>
                                 <p>
                                   {j.config.recipe.count} {L("image(s)", "imagen(es)", "image(s)")} · {dates(j.created)}
                                 </p>
