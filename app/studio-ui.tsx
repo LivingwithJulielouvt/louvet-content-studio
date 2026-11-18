@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { uploadStudioMedia } from "../lib/direct-upload-client";
 import { studioTheme, plainText } from "../lib/client-experience.mjs";
+import { translateServerMessage } from "../lib/server-messages.mjs";
 import PublicRequests from "./public-requests";
 import AccountControls from "./account-controls";
 import FeaturesPanel from "./features-panel";
@@ -138,6 +139,18 @@ async function api(action: string, body?: any): Promise<Row> {
         pick(currentLang, "Cette action n’a pas abouti.", "No se pudo completar la acción.", "That didn’t work."),
     );
   return d;
+}
+// Erreur d'une étape vue par le client : les pannes côté agence (clé API, crédits, accès aux modèles)
+// ne sont pas de son ressort. On affiche un message simple, dans sa langue, et on rappelle que l'essai n'est pas décompté.
+function clientTaskError(error: string, lang: Lang): string {
+  if (/L[’']agence (doit|peut)|incertain|illisible|pas encore connecté|en pause/.test(error))
+    return pick(
+      lang,
+      "Un souci technique de notre côté. L’équipe est prévenue et cet essai ne vous est pas décompté.",
+      "Un problema técnico de nuestro lado. El equipo ya está avisado y este intento no se te descuenta.",
+      "A technical issue on our side. The team has been notified and this attempt doesn’t count.",
+    );
+  return translateServerMessage(plainText(error, lang), lang);
 }
 function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
   return (
@@ -1629,6 +1642,7 @@ export default function Studio() {
                       client={client}
                       data={data}
                       creator={creator}
+                      videoOn={videoOn}
                       onShown={setGuideShown}
                       onGo={(target) => {
                         setTab(target);
@@ -2560,7 +2574,7 @@ export default function Studio() {
                                               "Your image is being prepared",
                                             )}
                                     </b>
-                                    {t.error && <p>{isAgency ? t.error : plainText(t.error, lang)}</p>}
+                                    {t.error && <p>{isAgency ? t.error : clientTaskError(t.error, lang)}</p>}
                                   </div>
                                 )}
                               </div>
@@ -2645,7 +2659,7 @@ export default function Studio() {
                         .filter((t: Row) => t.kind === "caption" && t.status === "failed")
                         .map((t: Row) => (
                           <div key={t.id} className="alert error">
-                            <span>{t.error}</span>
+                            <span>{isAgency ? t.error : clientTaskError(t.error, lang)}</span>
                             {isAgency && (
                               <button
                                 className="button secondary"

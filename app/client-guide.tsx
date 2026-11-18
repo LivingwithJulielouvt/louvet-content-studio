@@ -28,12 +28,15 @@ export default function ClientGuide({
   client,
   data,
   creator,
+  videoOn = true,
   onGo,
   onShown,
 }: {
   client: Row;
   data: Row;
   creator: boolean;
+  /** Faux quand l'agence n'a pas ouvert le montage vidéo : l'étape « idées de vidéos » est alors masquée. */
+  videoOn?: boolean;
   onGo: (target: "products" | "create" | "templates" | "videos" | "publication") => void;
   /** Prévient l'accueil quand le guide est visible (il s'affiche alors seul). */
   onShown?: (shown: boolean) => void;
@@ -108,6 +111,9 @@ export default function ClientGuide({
             go: "templates" as const,
           },
         ]),
+    // Sans l'option vidéo, l'onglet n'existe pas pour le client : on n'affiche pas l'étape (sinon le bouton ne mène nulle part).
+    ...(videoOn
+      ? [
     {
       done: !!visits.videos,
       title: L("Découvrez vos 30 idées de vidéos", "Descubre tus 30 ideas de videos", "Explore your 30 video ideas"),
@@ -117,8 +123,10 @@ export default function ClientGuide({
         "Each idea explains what to film, step by step, with your phone.",
       ),
       cta: L("Voir les idées", "Ver las ideas", "See the ideas"),
-      go: "videos",
+      go: "videos" as const,
     },
+        ]
+      : []),
     {
       done: !!visits.publication || (data.rewards?.total || 0) > 0,
       title: L("Ouvrez votre calendrier", "Abre tu calendario", "Open your calendar"),
@@ -145,11 +153,13 @@ export default function ClientGuide({
         <div>
           <h2 id="client-guide-title">{L("Vos premiers pas", "Tus primeros pasos", "Your first steps")}</h2>
           <p>
-            {L(
-              `${doneCount} sur ${steps.length} · votre prochaine livraison arrive le ${deliveryDate}.`,
-              `${doneCount} de ${steps.length} · tu próxima entrega llega el ${deliveryDate}.`,
-              `${doneCount} of ${steps.length} · your next delivery arrives on ${deliveryDate}.`,
-            )}
+            {data.beta?.enabled
+              ? L(`${doneCount} sur ${steps.length}`, `${doneCount} de ${steps.length}`, `${doneCount} of ${steps.length}`)
+              : L(
+                  `${doneCount} sur ${steps.length} · votre prochaine livraison arrive le ${deliveryDate}.`,
+                  `${doneCount} de ${steps.length} · tu próxima entrega llega el ${deliveryDate}.`,
+                  `${doneCount} of ${steps.length} · your next delivery arrives on ${deliveryDate}.`,
+                )}
           </p>
         </div>
         <button
